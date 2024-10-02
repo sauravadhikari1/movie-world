@@ -3,10 +3,12 @@ import MovieCard from './MovieCard'
 import { fetchfromAPI } from '../utils/axios';
 import { randomChar } from '../utils/random';
 
-const Hero = () => {
+const Hero = ({addList}) => {
 const [result,setResult]=useState({})
 const[bgImg, setBgImg]=useState("")
 const searchRef= useRef("")
+
+const [searching, setSearching]=useState(false)
 useEffect(()=>{
 fetchMovie(randomChar())
 },[]);
@@ -15,13 +17,15 @@ fetchMovie(randomChar())
 const fetchMovie=async str=>{
 const movieData= await fetchfromAPI(str);
 setResult(movieData)
-setBgImg(movieData.Poster)
+setBgImg(movieData.Poster);
+setSearching(false)
 }
 const handleOnMovieSearch=()=>{
     const str=searchRef.current.value
     fetchMovie(str)
     searchRef.current.value=""
 }
+
 const movieStyle={
     backgroundImage: `url(${bgImg})`,
     backgroundRepeat: "no-repeat",
@@ -29,6 +33,16 @@ const movieStyle={
     height:"60vh",
     }
 
+    const handleOnClick=()=>{
+      setResult({})
+      setSearching(true)
+    }
+    const handleOnAdd=(type)=>{
+      addList({...result,type})
+      setResult({})
+      setSearching(true)
+
+    }
   return (
     <div>
       <nav className=" py-3 text-danger fixed-top" >
@@ -40,23 +54,42 @@ const movieStyle={
 
         <div className='hero-content'>
 
-        <div className="form-center">
+  
+          <div className="form-center">
+        {searching &&(
             <div className="text-center">
                 <h1>Search Millions of Movies</h1>
                 <p>Find about the movie more in details before watching them ...</p>
             </div>
-        </div>
+        )
+        }
+ 
+  
 
 
         <div className="input-group my-5">
         <input 
+        onFocus={()=>{
+          setSearching(true)
+        }}
         ref={searchRef}
         type="text" className="form-control" placeholder="Search Movie by Title" aria-label="Recipient's username" aria-describedby="button-addon2"/>
         <button onClick={handleOnMovieSearch} className="btn btn-danger" type="button" id="button-addon2">Search</button>
         </div>
-        <div className="movie-card-display">
-            <MovieCard result={result}/>
         </div>
+
+        {
+          !searching &&(
+
+        <div className="movie-card-display showMovie">
+          {}
+            <MovieCard result={result} 
+            deleteFunc={handleOnClick} 
+            handleOnAdd={handleOnAdd}/>
+        </div>
+
+          )
+        }
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 import React from 'react'
 
-const MovieCard = ({result}) => {
-    const {Poster, Title,imdbRating,Plot}=result
-    const poster="https://www.omdbapi.com/src/poster.jpg"
+const MovieCard = ({result, deleteFunc,handleOnAdd}) => {
+    const {Poster, Title,imdbRating,Plot, type}=result
+    // const poster="https://www.omdbapi.com/src/poster.jpg"
+   
   return (
     <div>
       <div className="container movie-card-item">
@@ -16,12 +17,23 @@ const MovieCard = ({result}) => {
                 </h3>
                 <p>{imdbRating}</p>
                 <p>{Plot?.slice(0,50)}...</p>
+                {
+                  !type &&(
+
                 <div className='d-flex justify-content-between'>
-                    <button className="btn btn-warning">Drama</button>
-                    <button className="btn btn-info">Action</button>
+                    <button className="btn btn-warning" onClick={()=>{
+                      handleOnAdd("Drama ")
+                    }}>Drama</button>
+                    <button className="btn btn-info" onClick={()=>{
+                      handleOnAdd("Action")
+                    }}>Action</button>
                 </div>
+
+                  )
+                }
+
                 <div className="d-grid mt-3">
-                    <button className="btn btn-danger">Delete</button>
+                    <button className="btn btn-danger " onClick={deleteFunc}>Delete</button>
                 </div>
             </div>
         </div>
