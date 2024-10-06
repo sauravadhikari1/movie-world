@@ -1,60 +1,73 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 
-const Display = ({movieList}) => {
-  const [displayList, setDisplayList]=useState([])
-  useEffect(()=>{
-    setDisplayList(movieList)
-  },[movieList])
+const Display = ({ movieList,handleOnDelete }) => {
+  const [displayList, setDisplayList] = useState([]);
 
-const getType=(Type)=>{
-  if(Type==="all"){
-    console.log("all")
-   return setDisplayList(movieList)
-  }
-  else{
-    console.log("else")
+  useEffect(() => {
+    setDisplayList(movieList);
+  }, [movieList]);
 
-    return setDisplayList(movieList.filter((mv)=>mv.type!==Type))
-  }
-}
-console.log(movieList)
+  const getType = (Type) => {
+    if (Type === "all") {
+      setDisplayList(movieList);
+    } else {
+      const filteredList = movieList.filter((movie) => movie.mood === Type);
+      setDisplayList(filteredList);
+    }
+  };
+
   return (
-    <div className="container  mt-5 rounded">
+    <div className="container mt-5 rounded">
       <div className="bg-dark p-3">
         <div className="row">
           <div className="col">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-primary" onClick={()=>{getType("all")}}>
+            <div className="btn-group" role="group" aria-label="Basic example">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  getType("all");
+                }}
+              >
                 All
               </button>
-              <button type="button" class="btn btn-warning"  onClick={()=>{getType("Drama")}}>
+              <button
+                type="button"
+                className="btn btn-warning"
+                onClick={() => {
+                  getType("Drama");
+                }}
+              >
                 Drama
               </button>
-              <button type="button" class="btn btn-info"  onClick={()=>{getType("Action")}}>
+              <button
+                type="button"
+                className="btn btn-info"
+                onClick={() => {
+                  getType("Action");
+                }}
+              >
                 Action
               </button>
             </div>
-            <div className="mt-3 text-light">2 movies listed</div>
+            <div className="mt-3 text-light">
+              {displayList.length} movies listed
+            </div>
           </div>
         </div>
 
         <div className="row mt-5">
-            <div className="col d-flex justify-content-center flex-wrap gap-2">
-                {
-                movieList.map((item,i)=>(
-                    <div className="" key={i}>
-                      <MovieCard result={item}/>
-                    </div>
-                )
-              )
-              }
-
-
-            </div>
+          <div className="col d-flex justify-content-center flex-wrap gap-2">
+            {displayList.map((item, i) => (
+              <div key={i}>
+                <MovieCard result={item} 
+                deleteFunc={handleOnDelete}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-
-
       </div>
     </div>
   );

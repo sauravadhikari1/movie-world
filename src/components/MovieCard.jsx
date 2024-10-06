@@ -1,7 +1,7 @@
 import React from 'react'
 
 const MovieCard = ({result, deleteFunc,handleOnAdd}) => {
-    const {Poster, Title,imdbRating,Plot, type}=result
+    const {Poster, Title,imdbRating,Plot, mood,imdbID}=result
     // const poster="https://www.omdbapi.com/src/poster.jpg"
    
   return (
@@ -18,11 +18,11 @@ const MovieCard = ({result, deleteFunc,handleOnAdd}) => {
                 <p>{imdbRating}</p>
                 <p>{Plot?.slice(0,50)}...</p>
                 {
-                  !type &&(
+                  !mood &&(
 
                 <div className='d-flex justify-content-between'>
                     <button className="btn btn-warning" onClick={()=>{
-                      handleOnAdd("Drama ")
+                      handleOnAdd("Drama")
                     }}>Drama</button>
                     <button className="btn btn-info" onClick={()=>{
                       handleOnAdd("Action")
@@ -33,7 +33,7 @@ const MovieCard = ({result, deleteFunc,handleOnAdd}) => {
                 }
 
                 <div className="d-grid mt-3">
-                    <button className="btn btn-danger " onClick={deleteFunc}>Delete</button>
+                    <button className="btn btn-danger " onClick={()=>deleteFunc(imdbID)}>Delete</button>
                 </div>
             </div>
         </div>

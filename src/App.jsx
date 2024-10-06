@@ -14,10 +14,15 @@ function App() {
     ])
     
   }
+  const handleOnDelete=imdbID=>{
+    setMovieList(
+      movieList.filter((mv)=>mv.imdbID!=imdbID)
+    )
+  }
   return (
    <div className="wrapper">
-    <Hero addList={addList}/>
-    <Display movieList={movieList}/>
+    <Hero addList={addList} />
+    <Display movieList={movieList} handleOnDelete={handleOnDelete}/>
    </div>
   );
 }

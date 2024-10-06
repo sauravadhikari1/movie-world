@@ -37,8 +37,8 @@ const movieStyle={
       setResult({})
       setSearching(true)
     }
-    const handleOnAdd=(type)=>{
-      addList({...result,type})
+    const handleOnAdd=(mood)=>{
+      addList({...result,mood})
       setResult({})
       setSearching(true)
 
